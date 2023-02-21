@@ -24,11 +24,11 @@ namespace Bingo2022.Controllers
         public IActionResult Index()
         {
             //Instancio la lista donde voy a guardar los cartones.
-            _cartones = new List<CartonModel>();
+            //_cartones = new List<CartonModel>();
 
             //Inicializo el bolillero;
-            var rule = new BolilleroRule();
-            _bolillero = rule.GenerarBolillero();
+            //var rule = new BolilleroRule();
+            //_bolillero = rule.GenerarBolillero();
 
 
             return View();
@@ -36,8 +36,17 @@ namespace Bingo2022.Controllers
 
         public IActionResult Jugar()
         {
-            var rule = new CartonesRule();
-            var generados = rule.ObtenerNumeros();
+            //Lista donde se van a guardar los cartones.
+            _cartones = new List<CartonModel>();
+
+            //Instancio el bolillero
+            var rule = new BolilleroRule();
+            _bolillero = rule.GenerarBolillero();
+            _marcador = 0;
+
+            //Instancio la regla para generar los cartones.
+            var ruleCartones = new CartonesRule();
+            var generados = ruleCartones.ObtenerNumeros();
 
             //Ciclo mediante el cual se asigna un N° de carton (1, 2, 3 o 4) y N° que va a contener
             for (int i = 0; i < 4; i++)
@@ -89,7 +98,9 @@ namespace Bingo2022.Controllers
                     _cartones[vuelta].Ganador = true;
 
                     //Lo que va a mostrar en pantalla.
-                    mensaje = $"<h2 class=\"bg-danger\">FELICITACIONES</h2><h3>El carton N°{_cartones[vuelta].NumeroDeCarton} ha ganado!</h3>";
+                    mensaje = $"<div class=\"text-center text-black\"><h2 class=\"bg-danger\">FELICITACIONES</h2><h3>El carton N°{_cartones[vuelta].NumeroDeCarton} ha ganado!</h3></div>";
+
+                    //mensaje = $"<h2 class=\"bg-danger\">FELICITACIONES</h2><h3>El carton N°{_cartones[vuelta].NumeroDeCarton} ha ganado!</h3>";
 
                     //Variable para desactivar el boton. 
                     btnDisabled = "disabled";
