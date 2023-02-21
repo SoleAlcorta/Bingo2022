@@ -3,8 +3,8 @@
 @{
 }
 
-
-<div id="felicitaciones" class="text-center">
+<div class="bg-white">
+<div id="felicitaciones" class="text-center text-black">
     @Html.Raw(ViewData["msjGanador"])
     
 </div>
@@ -54,20 +54,20 @@
     </div>
 </div>
 
+<div class="row m-2 bg-white">
 
-
-
-
-
-<div class="row">
-    <div class="col-sm-4 align-content-center">
+   <div class="col-sm-4">
         <a class="btn btnLanzar btn-success @ViewData["classDisabled"]" asp-action="sortear" asp-controller="home">Lanzar Bolilla</a>
     </div>
 
-    <div class="col-sm-8">
-        <h4 id="txtBolilla">Bolilla: </h4>
-        <p class="bolilla numBolilla bg-@ViewData["color"]">@ViewData["bolilla"]</p>
+    <div class="col d-inline-flex flex-row align-items-start position-relative">
+            <h4 class="text-black d-inline-flex">Bolilla: </h4>
+            <p class="bolilla bg-@ViewData["color"] position-absolute" style="bottom: -20.9px; left: 85px;">@ViewData["bolilla"]</p>
     </div>
+</div>
+
+   
+
 </div>
 
 
