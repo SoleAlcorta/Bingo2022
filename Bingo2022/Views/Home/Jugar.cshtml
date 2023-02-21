@@ -1,0 +1,74 @@
+﻿@model List<CartonModel> 
+
+@{
+}
+
+
+<div id="felicitaciones" class="text-center">
+    @Html.Raw(ViewData["msjGanador"])
+    
+</div>
+
+<hr />
+
+<div class="container text-center">
+    <div class="row">
+        @for (int i = 0; i < 4; i++)
+        {
+            <div class="col 6">
+
+
+                <table class="table table-bordered border-dark border border-3 table-layout:fixed">
+                    <tbody>
+                        @for (int f = 0; f < 3; f++)
+                        {
+                            <tr>
+                                @for (int c = 0; c < 9; c++)
+                                {
+                 
+                                    if (Model[i].Numeros[f, c].Numero == 0)
+                                    {
+                                        <td class="tamaniocelda border-3 bg-info text-info" value="0">00</td>
+                                    }
+                                    else
+                                    {
+                                        int valor = Model[i].Numeros[f, c].Numero;
+                                        if (Model[i].Numeros[f, c].Salio == false)
+                                        {
+                                            <td class="tamaniocelda border-3" value="@valor"><strong>@valor</strong></td>
+                                        } else
+                                        {
+                                            <td class="tamaniocelda text-danger border-3" value="@valor"><strong>@valor</strong></td>
+                                        }
+                                    }
+                                }
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+
+    </div>
+</div>
+
+
+
+
+
+
+<div class="row">
+    <div class="col-sm-4 align-content-center">
+        <a class="btn btnLanzar btn-success @ViewData["classDisabled"]" asp-action="sortear" asp-controller="home">Lanzar Bolilla</a>
+    </div>
+
+    <div class="col-sm-8">
+        <h4 id="txtBolilla">Bolilla: </h4>
+        <p class="bolilla numBolilla bg-@ViewData["color"]">@ViewData["bolilla"]</p>
+    </div>
+</div>
+
+
+
