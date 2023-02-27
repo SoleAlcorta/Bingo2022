@@ -14,6 +14,7 @@ namespace Bingo2022.Rules
             _configuration = configuration;
         }
 
+        //Obtengo aleatoriamente los numeros del bolillero. 
         public List<int> GenerarBolillero ()
         {
 
@@ -38,6 +39,7 @@ namespace Bingo2022.Rules
             return bolillas;
         }
 
+        //Guardar en el historial de bolillero.
         public void GuardarHistorialBolillero(HistorialBolillero data)
         {
             var connectionString = _configuration.GetConnectionString("BingoDatabase");

@@ -1,4 +1,5 @@
 ﻿using Bingo2022.Models;
+using Dapper;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 
@@ -6,6 +7,14 @@ namespace Bingo2022.Rules
 {
     public class CartonesRule
     {
+        //Conexión a la BD.
+        private readonly IConfiguration _configuration;
+        public CartonesRule(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        //Genera los cartones.
         public List<NumeroModel[,]> ObtenerNumeros()
         {
             var genRandom = new Random(DateTime.Now.Millisecond);
@@ -148,7 +157,6 @@ namespace Bingo2022.Rules
 
                 }
 
-                //cartones.Add(carton);
 
                 //Recorro los int y los convierto en Model
                 for (int fil = 0; fil < 3; fil++)
@@ -167,7 +175,7 @@ namespace Bingo2022.Rules
             return numerosModel;
         }
 
-        //Completar estos datos y leeeesto.
+        //Guardar en el historial de cartones.
         public void GuardarHistorialCartones(HistorialCartones data)
         {
             var connectionString = _configuration.GetConnectionString("BingoDatabase");
@@ -175,11 +183,14 @@ namespace Bingo2022.Rules
             {
                 connection.Open();
 
-                var queryInsert = "INSERT INTO HistorialBolillero(fecha, numBolilla) Values(@fecha, @numBolilla)";
+                var queryInsert = "INSERT INTO HistorialCartones(fecha, carton1, carton2, carton3, carton4) Values(@fecha, @carton1, @carton2, @carton3, @carton4)";
                 var result = connection.Execute(queryInsert, new
                 {
                     fecha = data.Fecha,
-                    numBolilla = data.NumBolilla,
+                    carton1 = data.Carton1,
+                    carton2 = data.Carton2,
+                    carton3 = data.Carton3,
+                    carton4 = data.Carton4,
                 });
             }
         }

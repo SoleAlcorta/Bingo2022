@@ -53,7 +53,7 @@ namespace Bingo2022.Controllers
             _marcador = 0;
 
             //Instancio la regla para generar los cartones.
-            var ruleCartones = new CartonesRule();
+            var ruleCartones = new CartonesRule(_configuration);
             var generados = ruleCartones.ObtenerNumeros();
 
             //Ciclo mediante el cual se asigna un N° de carton (1, 2, 3 o 4) y N° que va a contener
@@ -69,16 +69,18 @@ namespace Bingo2022.Controllers
         {
             //Acceso a la BD.
             var ruleBolillero = new BolilleroRule(_configuration);
-
+            var ruleCartones = new CartonesRule(_configuration);
          
             //Trae un numero del bolillero.
             _bolillaSorteada = _bolillero[_marcador];
             _marcador++;
 
             //Envio la bolilla a la BD.
-            var guardar = new HistorialBolillero();
-            guardar.NumBolilla = _bolillaSorteada;
-            ruleBolillero.GuardarHistorialBolillero(guardar);
+            var guardarBolilla = new HistorialBolillero();
+            guardarBolilla.NumBolilla = _bolillaSorteada;
+            ruleBolillero.GuardarHistorialBolillero(guardarBolilla);
+
+            var guardarGanadores = new HistorialCartones();
 
             //Variables para el msj ganador.
             string mensaje = "";
@@ -115,15 +117,31 @@ namespace Bingo2022.Controllers
 
                     //Lo que va a mostrar en pantalla.
                     mensaje = $"<div class=\"text-center text-black\"><h2 class=\"bg-danger\">FELICITACIONES</h2><h3>El carton N°{_cartones[vuelta].NumeroDeCarton} ha ganado!</h3></div>";
-
                     //mensaje = $"<h2 class=\"bg-danger\">FELICITACIONES</h2><h3>El carton N°{_cartones[vuelta].NumeroDeCarton} ha ganado!</h3>";
 
                     //Variable para desactivar el boton. 
                     btnDisabled = "disabled";
 
+                    //Envio a la BD. 
+                    if (guardarGanadores.Carton1 == null)
+                    {
+                        guardarGanadores.Carton1 = _cartones[vuelta].NumeroDeCarton;
+                    }
+                    else if (guardarGanadores.Carton2 == null)
+                    {
+                        guardarGanadores.Carton2 = _cartones[vuelta].NumeroDeCarton;
+                    }
+                    else if (guardarGanadores.Carton3 == null)
+                    {
+                        guardarGanadores.Carton3 = _cartones[vuelta].NumeroDeCarton;
+                    } else guardarGanadores.Carton4 = _cartones[vuelta].NumeroDeCarton;
+
+                    //Envio los ganadores a la BD.
+                    ruleCartones.GuardarHistorialCartones(guardarGanadores);
                 }
 
             }
+            
 
             //Manda la bolilla para mostrarla en la vista.
             ViewData["bolilla"] = _bolillaSorteada;
