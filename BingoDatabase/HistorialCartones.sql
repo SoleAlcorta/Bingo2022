@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[HistorialCartones](
 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[fecha] [date] NOT NULL,
+	[fecha] DATETIME NOT NULL,
 	[carton1] [int] NULL,
 	[carton2] [int] NULL,
 	[carton3] [int] NULL,

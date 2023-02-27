@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[HistorialBolillero](
 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[fecha] [date] NOT NULL,
+	[fecha] DATETIME NOT NULL,
 	[numBolilla] [int] NOT NULL,
  CONSTRAINT [PK_HistorialBolillero] PRIMARY KEY CLUSTERED 
 (
