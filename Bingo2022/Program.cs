@@ -3,6 +3,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//Agrego lo necesario para la conección con la BD.
+builder.Configuration.AddJsonFile("appsettings.json");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

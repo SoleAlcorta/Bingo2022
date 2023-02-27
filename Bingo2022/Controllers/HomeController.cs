@@ -7,18 +7,23 @@ namespace Bingo2022.Controllers
 {
     public class HomeController : Controller
     {
-        //Lista donde se van a guardar los cartones
+
+        private readonly ILogger<HomeController> _logger;
+
+        //Conección BD.
+        private readonly IConfiguration _configuration;
+
+        //Lista donde se van a guardar los cartones.
         private static List<CartonModel>? _cartones;
         //Otros campos útiles.
         private static List<int>? _bolillero;
         private static int _bolillaSorteada = 0;
         private static int _marcador = 0;
 
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration; 
         }
 
         public IActionResult Index()
@@ -36,11 +41,14 @@ namespace Bingo2022.Controllers
 
         public IActionResult Jugar()
         {
+            //Acceso a la BD.
+            string cs = _configuration.GetConnectionString("BingoDatabase");
+
             //Lista donde se van a guardar los cartones.
             _cartones = new List<CartonModel>();
 
             //Instancio el bolillero
-            var rule = new BolilleroRule();
+            var rule = new BolilleroRule(_configuration);
             _bolillero = rule.GenerarBolillero();
             _marcador = 0;
 
@@ -59,10 +67,18 @@ namespace Bingo2022.Controllers
 
         public IActionResult Sortear()
         {
+            //Acceso a la BD.
+            var ruleBolillero = new BolilleroRule(_configuration);
 
+         
             //Trae un numero del bolillero.
             _bolillaSorteada = _bolillero[_marcador];
             _marcador++;
+
+            //Envio la bolilla a la BD.
+            var guardar = new HistorialBolillero();
+            guardar.NumBolilla = _bolillaSorteada;
+            ruleBolillero.GuardarHistorialBolillero(guardar);
 
             //Variables para el msj ganador.
             string mensaje = "";
