@@ -2,6 +2,7 @@
 {
     public class ColoresRule
     {
+        //Método para asignar colores aleatorios a la bolilla.
         public string ColorAleatorio ()
         {
             var genRandom = new Random(DateTime.Now.Millisecond);

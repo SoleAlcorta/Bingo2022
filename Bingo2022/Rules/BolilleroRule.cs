@@ -1,5 +1,4 @@
-﻿using Bingo2022.Data;
-using Bingo2022.Models;
+﻿using Bingo2022.Models;
 using Dapper;
 using System.Data.SqlClient;
 
